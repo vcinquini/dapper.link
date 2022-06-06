@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<commands namespace="authors">
+
+	<!--
+The framework only defines a label
+   <commands> root tag
+       Attributes:
+       namespace: namespace, can be empty
+   <var> defines a variable
+     Attributes:
+     id: identification, variables can be referenced by syntax ${id}, variables are divided into local and global variables
+    <where>: dynamic query where tag, if it is a dynamic query, you must use where
+     Attributes:
+     No
+    <if>Conditional judgment
+     Attributes:
+      test: expression
+      The following select, insert has no practical meaning and can be written at will, the framework is not defined
+  -->
+
+	<select id="list">
+		<var id="where">
+			<where>
+				<if test="Id!=null">
+					AND author_id=@Id
+				</if>
+				<if test="Name!=null">
+					AND first_name=@Name
+				</if>
+			</where>
+		</var>
+		select * from authors ${where};
+		select count(1) from authors ${where}
+	</select>
+
+</commands>
