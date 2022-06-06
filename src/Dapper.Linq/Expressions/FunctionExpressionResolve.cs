@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Dapper.Expressions
 {
-    public class FunctionExpressionResovle : ExpressionResovle
+    public class FunctionExpressionResolve : ExpressionResolve
     {
-        public FunctionExpressionResovle(Expression expression)
+        public FunctionExpressionResolve(Expression expression)
            : base(expression)
         {
         }

@@ -3,7 +3,7 @@
 namespace Dapper.Attributes
 {
     /// <summary>
-    /// 默认值约束
+    /// default constraint
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class DefaultAttribute : Attribute

@@ -2,9 +2,9 @@
 
 namespace Dapper.Expressions
 {
-    public class SelectExpressionResovle : ExpressionResovle
+    public class SelectExpressionResolve : ExpressionResolve
     {
-        public SelectExpressionResovle(Expression expression)
+        public SelectExpressionResolve(Expression expression)
          : base(expression)
         {
 
@@ -23,7 +23,7 @@ namespace Dapper.Expressions
                 }
                 else if (item.Expression is MethodCallExpression)
                 {
-                    var expression = new FunctionExpressionResovle(item.Expression).Resovle();
+                    var expression = new FunctionExpressionResolve(item.Expression).Resolve();
                     _textBuilder.Append($"{expression} AS {item.Member.Name}");
                 }
                 if (i != node.Bindings.Count - 1)
@@ -54,7 +54,7 @@ namespace Dapper.Expressions
                 }
                 else if (item is MethodCallExpression)
                 {
-                    var expression = new FunctionExpressionResovle(item).Resovle();
+                    var expression = new FunctionExpressionResolve(item).Resolve();
                     _textBuilder.Append($"{expression} AS {column}");
                 }
                 if (i != node.Arguments.Count - 1)
@@ -74,7 +74,7 @@ namespace Dapper.Expressions
 
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
-            var result = new FunctionExpressionResovle(node).Resovle();
+            var result = new FunctionExpressionResolve(node).Resolve();
             _textBuilder.Append($"{result} AS expr");
             return node;
         }

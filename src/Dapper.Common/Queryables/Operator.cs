@@ -4,116 +4,116 @@ using System.Linq.Expressions;
 namespace Dapper
 {
     /// <summary>
-    /// 数据库操作符
+    /// Database operators
     /// </summary>
     public class Operator
     {
         /// <summary>
         /// in
         /// </summary>
-        /// <typeparam name="T">类型推断</typeparam>
-        /// <param name="column">字段</param>
-        /// <param name="values">参数</param>
+        /// <typeparam name="T">Type Inference</typeparam>
+        /// <param name="column">field</param>
+        /// <param name="values">parameters</param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("样式", "IDE0060:删除未使用的参数", Justification = "<挂起>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060: Remove unused parameters", Justification = "<Suspended>")]
         public static bool In<T>(T column, IEnumerable<T> values) => default;
         /// <summary>
-        /// in(低性能)
+        /// in (low performance)
         /// </summary>
-        /// <typeparam name="T">类型推断</typeparam>
-        /// <param name="column">字段</param>
-        /// <param name="values">参数</param>
+        /// <typeparam name="T">Type inference</typeparam>
+        /// <param name="column">field</param>
+        /// <param name="values">parameters</param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("样式", "IDE0060:删除未使用的参数", Justification = "<挂起>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060: Remove unused parameters", Justification = "<Suspended>")]
         public static bool In<T>(T column, params T[] values) => default;
         /// <summary>
         /// not in
         /// </summary>
-        /// <typeparam name="T">类型推断</typeparam>
-        /// <param name="column">字段</param>
-        /// <param name="values">参数</param>
+        /// <typeparam name="T">Type inference</typeparam>
+        /// <param name="column">field</param>
+        /// <param name="values">parameters</param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("样式", "IDE0060:删除未使用的参数", Justification = "<挂起>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060: Remove unused parameters", Justification = "<Suspended>")]
         public static bool NotIn<T>(T column, IEnumerable<T> values) => default;
         /// <summary>
-        /// not in(低性能)
+        /// not in (low performance)
         /// </summary>
-        /// <typeparam name="T">类型推断</typeparam>
-        /// <param name="column">字段</param>
-        /// <param name="values">参数</param>
+        /// <typeparam name="T">Type Inference</typeparam>
+        /// <param name="column">field</param>
+        /// <param name="values">parameters</param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("样式", "IDE0060:删除未使用的参数", Justification = "<挂起>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060: Remove unused parameters", Justification = "<Suspended>")]
         public static bool NotIn<T>(T column, params T[] values) => default;
         /// <summary>
         /// like %value%
         /// </summary>
-        /// <param name="column">字段</param>
-        /// <param name="value">参数</param>
+        /// <param name="column">field</param>
+        /// <param name="value">parameter</param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("样式", "IDE0060:删除未使用的参数", Justification = "<挂起>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060: Remove unused parameters", Justification = "<Suspended>")]
         public static bool Contains(string column, string value) => default;
         /// <summary>
         /// not like %value%
         /// </summary>
-        /// <param name="column">字段</param>
-        /// <param name="value">参数</param>
+        /// <param name="column">field</param>
+        /// <param name="value">parameter</param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("样式", "IDE0060:删除未使用的参数", Justification = "<挂起>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060: Remove unused parameters", Justification = "<Suspended>")]
         public static bool NotContains(string column, string value) => default;
         /// <summary>
         /// like value%
         /// </summary>
-        /// <param name="column">字段</param>
-        /// <param name="value">参数</param>
+        /// <param name="column">field</param>
+        /// <param name="value">parameter</param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("样式", "IDE0060:删除未使用的参数", Justification = "<挂起>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060: Remove unused parameters", Justification = "<Suspended>")]
         public static bool StartsWith(string column, string value) => default;
         /// <summary>
         /// not like value%
         /// </summary>
-        /// <param name="column">字段</param>
-        /// <param name="value">参数</param>
+        /// <param name="column">field</param>
+        /// <param name="value">parameter</param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("样式", "IDE0060:删除未使用的参数", Justification = "<挂起>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060: Remove unused parameters", Justification = "<Suspended>")]
         public static bool NotStartsWith(string column, string value) => default;
         /// <summary>
         /// like %value
         /// </summary>
-        /// <param name="column">字段</param>
-        /// <param name="value">参数</param>
+        /// <param name="column">field</param>
+        /// <param name="value">parameter</param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("样式", "IDE0060:删除未使用的参数", Justification = "<挂起>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060: Remove unused parameters", Justification = "<Suspended>")]
         public static bool EndsWith(string column, string value) => default;
         /// <summary>
         /// not like %value
         /// </summary>
-        /// <param name="column">字段</param>
-        /// <param name="value">参数</param>
+        /// <param name="column">field</param>
+        /// <param name="value">parameter</param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("样式", "IDE0060:删除未使用的参数", Justification = "<挂起>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060: Remove unused parameters", Justification = "<Suspended>")]
         public static bool NotEndsWith(string column, string value) => default;
         /// <summary>
         /// regex value
         /// </summary>
-        /// <param name="column">字段</param>
-        /// <param name="value">参数</param>
+        /// <param name="column">field</param>
+        /// <param name="value">parameter</param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("样式", "IDE0060:删除未使用的参数", Justification = "<挂起>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060: Remove unused parameters", Justification = "<Suspended>")]
         public static bool Regexp(string column, string value) => default;
         /// <summary>
         /// not regex value
         /// </summary>
-        /// <param name="column">字段</param>
-        /// <param name="value">参数</param>
+        /// <param name="column">field</param>
+        /// <param name="value">parameter</param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("样式", "IDE0060:删除未使用的参数", Justification = "<挂起>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060: Remove unused parameters", Justification = "<Suspended>")]
         public static bool NotRegexp(string column, string value) => default;
         /// <summary>
-        /// 解析表达式
+        /// Analytical expression
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        internal static string ResovleExpressionType(ExpressionType type)
+		internal static string ResolveExpressionType(ExpressionType type)
         {
             var condition = string.Empty;
             switch (type)
@@ -164,11 +164,11 @@ namespace Dapper
             return condition;
         }
         /// <summary>
-        /// 解析表达式
+        /// Analytical expression
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        internal static string ResovleExpressionType(string type)
+        internal static string ResolveExpressionType(string type)
         {
             switch (type)
             {

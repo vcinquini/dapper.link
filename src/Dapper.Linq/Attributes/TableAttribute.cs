@@ -3,7 +3,7 @@
 namespace Dapper.Attributes
 {
     /// <summary>
-    /// 表名映射
+    /// table name mapping
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     public class TableAttribute : Attribute

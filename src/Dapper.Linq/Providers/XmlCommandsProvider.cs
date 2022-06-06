@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
-using Dapper.XmlResovles;
+using Dapper.XmlResolves;
 
 namespace Dapper
 {
@@ -179,6 +179,17 @@ namespace Dapper
         {
             var document = new XmlDocument();
             document.Load(filename);
+            Resolve(document);
+        }
+
+        /// <summary>
+        /// load configuration file
+        /// </summary>
+        /// <param name="filename"></param>
+        public void LoadXml(string xmlString)
+        {
+            var document = new XmlDocument();
+            document.LoadXml(xmlString);
             Resolve(document);
         }
 

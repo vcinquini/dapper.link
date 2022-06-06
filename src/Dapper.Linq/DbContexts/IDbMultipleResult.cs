@@ -15,42 +15,42 @@ namespace Dapper
         /// <returns></returns>
         List<dynamic> GetList();
         /// <summary>
-        /// 异步返回当前dynamic类型结果集
+        /// Asynchronously returns the current dynamic type result set
         /// </summary>
         /// <returns></returns>
         Task<List<dynamic>> GetListAsync();
         /// <summary>
-        /// 返回当前T结果集
+        /// Returns the current T result set
         /// </summary>
-        /// <typeparam name="T">结果集类型</typeparam>
+        /// <typeparam name="T">Result set type</typeparam>
         /// <returns></returns>
         List<T> GetList<T>();
         /// <summary>
-        ///  异步返回当前T类型结果集
+        /// Asynchronously returns the current T type result set
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         Task<List<T>> GetListAsync<T>();
         /// <summary>
-        /// 返回当前dynamic类型结果
+        /// Returns the current dynamic type result
         /// </summary>
         /// <returns></returns>
         object Get();
         /// <summary>
-        /// 异步返回当前dynamic类型结果
+        /// Asynchronously returns the current dynamic type result
         /// </summary>
         /// <returns></returns>
         Task<object> GetAsync();
         /// <summary>
-        /// 返回当前T类型结果
+        /// Returns the current T type result
         /// </summary>
-        /// <typeparam name="T">结果集类型</typeparam>
+        /// <typeparam name="T">Result set type</typeparam>
         /// <returns></returns>
         T Get<T>();
         /// <summary>
-        /// 异步返回当前T类型结果
+        /// Asynchronously returns the current T type result
         /// </summary>
-        /// <typeparam name="T">结果集类型</typeparam>
+        /// <typeparam name="T">Result set type</typeparam>
         /// <returns></returns>
         Task<T> GetAsync<T>();
     }

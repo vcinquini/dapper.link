@@ -7,28 +7,28 @@ using System.Linq;
 namespace Dapper
 {
     /// <summary>
-    /// 数据库元信息提供程序
+    /// Database metadata provider
     /// </summary>
     public interface IDbMetaInfoProvider
     {
         /// <summary>
-        /// 获取表的元信息
+        /// Get the meta information of the table
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
         DbTableMetaInfo GetTable(Type type);
         /// <summary>
-        /// 获取字段的元信息
+        /// Get the meta information of the field
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
         List<DbColumnMetaInfo> GetColumns(Type type);
     }
-   
+
     /// <summary>
-    /// 注解方案数据库元信息
+    /// Annotation scheme database metadata
     /// </summary>
-    public class AnnotationDbMetaInfoProvider: IDbMetaInfoProvider
+    public class AnnotationDbMetaInfoProvider : IDbMetaInfoProvider
     {
         private static readonly ConcurrentDictionary<Type, DbTableMetaInfo> _tables
             = new ConcurrentDictionary<Type, DbTableMetaInfo>();
@@ -121,59 +121,59 @@ namespace Dapper
     }
 
     /// <summary>
-    /// 表信息
+    /// table information
     /// </summary>
     public class DbTableMetaInfo
     {
         /// <summary>
-        /// 数据库表名称
+        /// database table name
         /// </summary>
         public string TableName { get; set; }
         /// <summary>
-        /// Csharp表名称
+        /// Csharp table name
         /// </summary>
         public string CsharpName { get; set; }
     }
 
     /// <summary>
-    /// 字段信息
+    /// Field information
     /// </summary>
     public class DbColumnMetaInfo
     {
         /// <summary>
-        /// 是否并发检查
+        /// Check for concurrency
         /// </summary>
         public bool IsConcurrencyCheck { get; set; }
         /// <summary>
-        /// 是否默认值约束
+        /// Whether the default value constraint
         /// </summary>
         public bool IsDefault { get; set; }
         /// <summary>
-        /// 是否是数据库字段
+        /// Is it a database field
         /// </summary>
         public bool IsNotMapped { get; set; }
         /// <summary>
-        /// 数据库字段名
+        /// database field name
         /// </summary>
         public string ColumnName { get; set; }
         /// <summary>
-        /// Csharp字段名
+        /// Csharp field name
         /// </summary>
         public string CsharpName { get; set; }
         /// <summary>
-        /// Csharp类型
+        /// Csharp type
         /// </summary>
         public Type CsharpType { get; set; }
         /// <summary>
-        /// 是否主键约束
+        /// Whether the primary key constraint
         /// </summary>
         public bool IsPrimaryKey { get; set; }
         /// <summary>
-        /// 是否是自增列
+        /// Whether it is an auto-incrementing column
         /// </summary>
         public bool IsIdentity { get; set; }
         /// <summary>
-        /// 是否为计算列
+        /// Whether it is a computed column
         /// </summary>
         public bool IsComplexType { get; set; }
     }

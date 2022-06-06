@@ -7,7 +7,7 @@ using Dapper.Expressions;
 namespace Dapper
 {
     /// <summary>
-    /// 同步linq查询
+    /// Synchronous linq query
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public partial class DbQuery<T>
@@ -25,7 +25,7 @@ namespace Dapper
 
         public int Count(int? commandTimeout = null)
         {
-            var sql = ResovleCount();
+            var sql = ResolveCount();
             return _context.ExecuteScalar<int>(sql, _parameters, commandTimeout);
         }
 
@@ -37,15 +37,15 @@ namespace Dapper
 
         public int Insert(T entity)
         {
-            ResovleParameter(entity);
-            var sql = ResovleInsert(false);
+            ResolveParameter(entity);
+            var sql = ResolveInsert(false);
             return _context.Execute(sql, _parameters);
         }
      
         public int InsertReturnId(T entity)
         {
-            ResovleParameter(entity);
-            var sql = ResovleInsert(true);
+            ResolveParameter(entity);
+            var sql = ResolveInsert(true);
             return _context.ExecuteScalar<int>(sql, _parameters);
         }
 
@@ -55,7 +55,7 @@ namespace Dapper
             {
                 return 0;
             }
-            var sql = ResovleBatchInsert(entitys);
+            var sql = ResolveBatchInsert(entitys);
             return _context.Execute(sql, _parameters, commandTimeout); 
         }
 
@@ -71,7 +71,7 @@ namespace Dapper
 
         public int Update(T entity)
         {
-            ResovleParameter(entity);
+            ResolveParameter(entity);
             var sql = ResolveUpdate();
             var row = _context.Execute(sql, _parameters);
             if (GetColumnMetaInfos().Exists(a => a.IsConcurrencyCheck) && row == 0)
@@ -83,7 +83,7 @@ namespace Dapper
 
         public int Delete(int? commandTimeout = null)
         {
-            var sql = ResovleDelete();
+            var sql = ResolveDelete();
             return _context.Execute(sql, _parameters, commandTimeout);
         }
 
@@ -95,7 +95,7 @@ namespace Dapper
 
         public bool Exists(int? commandTimeout = null)
         {
-            var sql = ResovleExists();
+            var sql = ResolveExists();
             return _context.ExecuteScalar<bool>(sql, _parameters, commandTimeout);
         }
 
@@ -196,7 +196,7 @@ namespace Dapper
         public (IEnumerable<T>, int) SelectMany(int? commandTimeout = null)
         {
             var sql1 = ResolveSelect();
-            var sql2 = ResovleCount();
+            var sql2 = ResolveCount();
             using (var multi = _context.QueryMultiple($"{sql1};{sql2}", _parameters, commandTimeout))
             {
                 var list = multi.GetList<T>();
@@ -207,7 +207,7 @@ namespace Dapper
         public TResult Sum<TResult>(Expression<Func<T, TResult>> expression, int? commandTimeout = null)
         {
             _selectExpression = expression;
-            var sql = ResovleSum();
+            var sql = ResolveSum();
             return _context.ExecuteScalar<TResult>(sql, _parameters, commandTimeout);
         }
         public IEnumerable<TResult> Select<TResult>(Expression<Func<T, TResult>> expression, int? commandTimeout = null)
@@ -221,7 +221,7 @@ namespace Dapper
         {
             _selectExpression = expression;
             var sql1 = ResolveSelect();
-            var sql2 = ResovleCount();
+            var sql2 = ResolveCount();
             using (var multi = _context.QueryMultiple($"{sql1};{sql2}", _parameters, commandTimeout))
             {
                 var list = multi.GetList<TResult>();

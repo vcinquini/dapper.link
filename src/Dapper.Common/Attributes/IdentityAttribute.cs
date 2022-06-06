@@ -3,7 +3,7 @@
 namespace Dapper.Attributes
 {
     /// <summary>
-    /// 自增列标识
+    /// auto-incrementing column ID
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class IdentityAttribute : Attribute

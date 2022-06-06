@@ -3,7 +3,7 @@
 namespace Dapper.Attributes
 {
     /// <summary>
-    /// 忽略映射
+    /// ignore mapping
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class NotMappedAttribute: Attribute

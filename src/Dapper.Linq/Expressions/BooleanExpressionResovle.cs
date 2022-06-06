@@ -6,7 +6,7 @@ using Dapper.Attributes;
 
 namespace Dapper.Expressions
 {
-    public class BooleanExpressionResovle : ExpressionResovle
+    public class BooleanExpressionResolve : ExpressionResolve
     {
         private readonly string _prefix = "@";
 
@@ -14,13 +14,13 @@ namespace Dapper.Expressions
 
         private readonly Dictionary<string, object> _parameters = new Dictionary<string, object>();
 
-        public BooleanExpressionResovle(Expression expression)
+        public BooleanExpressionResolve(Expression expression)
             : base(expression)
         {
             _parameters = new Dictionary<string, object>();
         }
 
-        public BooleanExpressionResovle(Expression expression, Dictionary<string, object> parameters)
+        public BooleanExpressionResolve(Expression expression, Dictionary<string, object> parameters)
             : base(expression)
         {
             _parameters = parameters;
@@ -47,7 +47,7 @@ namespace Dapper.Expressions
                 {
                     _textBuilder.Append("(");
                     SetParameterName(node.Arguments[0] as MemberExpression);
-                    var type = Operator.ResovleExpressionType(node.Method.Name);
+                    var type = Operator.ResolveExpressionType(node.Method.Name);
                     _textBuilder.Append($" {type} ");
                     var value = VisitConstantValue(node.Arguments[1]);
                     if (node.Method.Name == nameof(Operator.StartsWith) || node.Method.Name == nameof(Operator.NotStartsWith))
@@ -124,7 +124,7 @@ namespace Dapper.Expressions
             }
             else if (node.Method.DeclaringType.GetCustomAttribute(typeof(FunctionAttribute), true) != null)
             {
-                var function = new FunctionExpressionResovle(node).Resovle();
+                var function = new FunctionExpressionResolve(node).Resolve();
                 _textBuilder.Append(function);
             }
             else
@@ -144,7 +144,7 @@ namespace Dapper.Expressions
             }
             else
             {
-                _textBuilder.Append($" {Operator.ResovleExpressionType(node.NodeType)} ");
+                _textBuilder.Append($" {Operator.ResolveExpressionType(node.NodeType)} ");
                 Visit(node.Right);
             }
             _textBuilder.Append(")");
@@ -168,7 +168,7 @@ namespace Dapper.Expressions
                 }
                 else
                 {
-                    _textBuilder.AppendFormat("{0} ", Operator.ResovleExpressionType(ExpressionType.Not));
+                    _textBuilder.AppendFormat("{0} ", Operator.ResolveExpressionType(ExpressionType.Not));
                 }
                 Visit(node.Operand);
             }

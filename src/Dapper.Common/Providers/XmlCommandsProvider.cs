@@ -3,17 +3,17 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
-using Dapper.XmlResovles;
+using Dapper.XmlResolves;
 
 namespace Dapper
 {
     /// <summary>
-    /// xml配置提供程序
+    /// xml configuration provider
     /// </summary>
     public interface IXmlCommandsProvider
     {
         /// <summary>
-        /// 解析动态sql
+        /// Parse dynamic sql
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="id"></param>
@@ -21,43 +21,43 @@ namespace Dapper
         /// <returns></returns>
         string Build<T>(string id, T parameter) where T : class;
         /// <summary>
-        /// 解析sql
+        /// Parse sql
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         string Build(string id);
         /// <summary>
-        /// 加载配置文件
+        /// Load configuration file
         /// </summary>
-        /// <param name="filename">文件名</param>
+        /// <param name="filename">filename</param>
         void Load(string filename);
         /// <summary>
-        /// 从指定路径加载所有匹配的文件
+        /// Load all matching files from the specified path
         /// </summary>
-        /// <param name="path">路径</param>
-        /// <param name="pattern">文件通配符</param>
+        /// <param name="path">path</param>
+        /// <param name="pattern">File wildcard</param>
         void Load(string path, string pattern);
         /// <summary>
-        /// 从指定路径加载所有匹配的文件
+        /// Load all matching files from the specified path
         /// </summary>
-        /// <param name="path">路径</param>
-        /// <param name="pattern">文件通配符</param>
-        /// <param name="options">查找选项</param>
+        /// <param name="path">path</param>
+        /// <param name="pattern">File wildcard</param>
+        /// <param name="options">Find options</param>
         void Load(string path, string pattern, SearchOption options);
         /// <summary>
-        /// 从程序集加载配置所有xml
+        /// Load configuration all xml from assembly
         /// </summary>
-        /// <param name="assembly">程序集</param>
+        /// <param name="assembly">assembly</param>
         void Load(System.Reflection.Assembly assembly);
         /// <summary>
-        /// 从程序集加载配置
+        /// Load configuration from assembly
         /// </summary>
-        /// <param name="assembly">程序集</param>
-        /// <param name="pattern">正则匹配</param>
+        /// <param name="assembly">assembly</param>
+        /// <param name="pattern">Regular match</param>
         void Load(System.Reflection.Assembly assembly, string pattern);
     }
     /// <summary>
-    /// xml配置提供程序
+    /// xml configuration provider
     /// </summary>
     public class XmlCommandsProvider : IXmlCommandsProvider
     {
@@ -178,9 +178,9 @@ namespace Dapper
             {
                 var @namespace = document.DocumentElement
                     .GetAttribute("namespace") ?? string.Empty;
-                //解析全局变量
+                // resolve global variables
                 var globalVariables = ResolveVariables(document.DocumentElement);
-                //获取命令节点
+                // get command node
                 var elements = document.DocumentElement
                     .Cast<XmlNode>()
                     .Where(a => a.Name != "var" && a is XmlElement);
@@ -188,9 +188,9 @@ namespace Dapper
                 {
                     var id = item.GetAttribute("id");
                     id = string.IsNullOrEmpty(@namespace) ? $"{id}" : $"{@namespace}.{id}";
-                    //解析局部变量
+                    // resolve local variables
                     var localVariables = ResolveVariables(item);
-                    //合并局部和全局变量，局部变量可以覆盖全局变量
+                    //Merge local and global variables, local variables can override global variables
                     var variables = new Dictionary<string, string>(globalVariables);
                     foreach (var ariable in localVariables)
                     {
@@ -203,11 +203,11 @@ namespace Dapper
                             variables.Add(ariable.Key, ariable.Value);
                         }
                     }
-                    //替换变量
+                    //replace variable
                     var xml = ReplaceVariable(variables, item.OuterXml);
                     var doc = new XmlDocument();
                     doc.LoadXml(xml);
-                    //通过变量解析命令
+                    // Parse the command by variable
                     var cmd = ResolveCommand(doc.DocumentElement);
                     if (_commands.ContainsKey(id))
                     {
@@ -222,7 +222,7 @@ namespace Dapper
         }
 
         /// <summary>
-        /// 加载配置文件
+        /// Load configuration file
         /// </summary>
         /// <param name="filename"></param>
         public void Load(string filename)
@@ -233,7 +233,7 @@ namespace Dapper
         }
 
         /// <summary>
-        /// 从流中加载xml
+        /// Load xml from the stream
         /// </summary>
         /// <param name="stream"></param>
         public void Load(Stream stream)
@@ -244,10 +244,10 @@ namespace Dapper
         }
 
         /// <summary>
-        /// 从指定路径加载所有匹配的文件
+        /// Load all matching files from the specified path
         /// </summary>
-        /// <param name="path">路径</param>
-        /// <param name="pattern">通配符</param>
+        /// <param name="path">path</param>
+        /// <param name="pattern">wildcard</param>
         public void Load(string path, string pattern)
         {
             var files = System.IO.Directory.GetFiles(path, pattern);
@@ -258,11 +258,11 @@ namespace Dapper
         }
 
         /// <summary>
-        /// 从指定路径加载所有匹配的文件
+        /// Load all matching files from the specified path
         /// </summary>
-        /// <param name="path">路径</param>
-        /// <param name="pattern">通配符</param>
-        /// <param name="options">查找选项</param>
+        /// <param name="path">path</param>
+        /// <param name="pattern">wildcard</param>
+        /// <param name="options">Find options</param>
         public void Load(string path, string pattern, SearchOption options)
         {
             var files = System.IO.Directory.GetFiles(path, pattern, options);
@@ -273,9 +273,9 @@ namespace Dapper
         }
 
         /// <summary>
-        /// 从嵌入式资源加载.xml结尾的文件
+        /// Load files ending in .xml from embedded resources
         /// </summary>
-        /// <param name="assembly">程序集</param>
+        /// <param name="assembly">assembly</param>
         public void Load(System.Reflection.Assembly assembly)
         {
             var filenames = assembly.GetManifestResourceNames();
@@ -291,10 +291,10 @@ namespace Dapper
         }
 
         /// <summary>
-        /// 从嵌入式资源加载配置
+        /// Load configuration from embedded resource
         /// </summary>
-        /// <param name="assembly">程序集</param>
-        /// <param name="pattern">匹配模式</param>
+        /// <param name="assembly">assembly</param>
+        /// <param name="pattern">match pattern</param>
         public void Load(System.Reflection.Assembly assembly, string pattern)
         {
             var filenames = assembly.GetManifestResourceNames();

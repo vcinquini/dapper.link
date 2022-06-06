@@ -5,7 +5,7 @@ using System.Text;
 namespace Dapper.Expressions
 {
     /// <summary>
-    /// 修改数据时并发冲突
+    /// Concurrency conflict when modifying data
     /// </summary>
     public class DbUpdateConcurrencyException : Exception
     {

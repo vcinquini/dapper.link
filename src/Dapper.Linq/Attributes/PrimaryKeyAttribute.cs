@@ -3,7 +3,7 @@
 namespace Dapper.Attributes
 {
     /// <summary>
-    /// 主键约束
+    /// primary key constraint
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class PrimaryKeyAttribute : Attribute

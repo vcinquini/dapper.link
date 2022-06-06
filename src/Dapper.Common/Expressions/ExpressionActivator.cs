@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace Dapper.Expressions
 {
     /// <summary>
-    /// 表达式树生成器
+    /// Expression tree generator
     /// </summary>
     public class ExpressionActivator
     {
@@ -33,7 +33,7 @@ namespace Dapper.Expressions
             foreach (var item in expressions1)
             {
                 var subexpr = item.Value.Trim('(', ')');
-                var @opterator = ResovleOperator(item.Value);
+                var @opterator = ResolveOperator(item.Value);
                 var opt = GetExpressionType(@opterator);
                 if (opt == ExpressionType.Not)
                 {
@@ -64,42 +64,42 @@ namespace Dapper.Expressions
                         .Trim();
                     string temp = null;
                     Expression exp1, exp2;
-                    //永远将变量放在第一个操作数
+                    // always put the variable in the first operand
                     if (parameter.Type.GetProperties().Any(a => a.Name == text2))
                     {
                         temp = text1;
                         text1 = text2;
                         text2 = temp;
                     }
-                    //是否为上一次的分式
+                    //Whether it is the last fraction
                     if (expressions2.ContainsKey(text1))
                     {
                         exp1 = expressions2[text1];
                     }
                     else if (parameter.Type.GetProperties().Any(a => a.Name == text1))
                     {
-                        //是否为变量
+                        //Is it a variable
                         var property = parameter.Type.GetProperty(text1);
                         exp1 = Expression.MakeMemberAccess(parameter, property);
                     }
                     else
                     {
-                        exp1 = ResovleConstantExpression(text1);
+                        exp1 = ResolveConstantExpression(text1);
                     }
-                    //是否为上一次的分式
+                    //Whether it is the last fraction
                     if (expressions2.ContainsKey(text2))
                     {
                         exp2 = expressions2[text2];
                     }
-                    //如果第一个操作数是变量
+                    //if the first operand is a variable
                     else if (parameter.Type.GetProperties().Any(a => a.Name == text1))
                     {
                         var constantType = parameter.Type.GetProperty(text1).PropertyType;
-                        exp2 = ResovleConstantExpression(text2, constantType);
+                        exp2 = ResolveConstantExpression(text2, constantType);
                     }
                     else
                     {
-                        exp2 = ResovleConstantExpression(text1, (exp1 as ConstantExpression)?.Type);
+                        exp2 = ResolveConstantExpression(text1, (exp1 as ConstantExpression)?.Type);
                     }
                     expressions2.Add(item.Key, Expression.MakeBinary(opt, exp1, exp2));
                 }
@@ -120,10 +120,9 @@ namespace Dapper.Expressions
                 LambdaExpression = lambda
             };
         }
-
         private string Initialization(string expression)
         {
-            expression = Regex.Replace(expression, @"(?<=[^\'][\s]+)and(?=\s+[^\'])","&&",RegexOptions.IgnoreCase);
+            expression = Regex.Replace(expression, @"(?<=[^\'][\s]+)and(?=\s+[^\'])", "&&", RegexOptions.IgnoreCase);
             expression = Regex.Replace(expression, @"(?<=[^\'][\s]+)or(?=\s+[^\'])", "||", RegexOptions.IgnoreCase);
             expression = Regex.Replace(expression, @"(?<=[^\'][\s]+)not(?=\s+[^\'])", "!", RegexOptions.IgnoreCase);
             return expression;
@@ -151,10 +150,10 @@ namespace Dapper.Expressions
                     throw new InvalidOperationException(text);
             }
         }
-       
-        private Expression ResovleConstantExpression(string expression, Type type)
+
+        private Expression ResolveConstantExpression(string expression, Type type)
         {
-            //生成指定类型的表达式
+            //Generate an expression of the specified type
             if (expression == "null")
             {
                 return Expression.Constant(null, type);
@@ -180,12 +179,12 @@ namespace Dapper.Expressions
             }
         }
 
-        private Expression ResovleConstantExpression(string expression)
+        private Expression ResolveConstantExpression(string expression)
         {
-            //自动类型推断生成表达式
+            //Automatic type inference generates expressions
             if (expression.StartsWith("'") && expression.EndsWith("'"))
             {
-                //字符串常量
+                // string constant
                 return Expression.Constant(expression.Trim('\''), typeof(string));
             }
             else if (expression == "true" || expression == "false")
@@ -194,7 +193,7 @@ namespace Dapper.Expressions
             }
             else if (Regex.IsMatch(expression, @"^\d+$"))
             {
-                //int类型常量
+                //int type constant
                 return Expression.Constant(expression, typeof(int));
             }
             else if (Regex.IsMatch(expression, @"^\d*\.\d*$"))
@@ -209,7 +208,7 @@ namespace Dapper.Expressions
             return Expression.Constant(expression, typeof(object));
         }
 
-        private string ResovleOperator(string text)
+        private string ResolveOperator(string text)
         {
             var operators = new string[] { "!", "*", "/", "%", "+", "-", "<", ">", "<=", ">=", "==", "!=", "&&", "||" };
             for (int i = 0; i < text.Length - 1; i++)
@@ -220,7 +219,7 @@ namespace Dapper.Expressions
                 {
                     return opt2;
                 }
-                else if(operators.Contains(opt1))
+                else if (operators.Contains(opt1))
                 {
                     return opt1;
                 }

@@ -8,7 +8,7 @@ using Dapper.Expressions;
 namespace Dapper
 {
     /// <summary>
-    /// 异步linq查询
+    /// Asynchronous linq query
     /// </summary>
     public partial class DbQuery<T>
     {
@@ -25,7 +25,7 @@ namespace Dapper
         }
         public Task<int> CountAsync(int? commandTimeout = null)
         {
-            var sql = ResovleCount();
+            var sql = ResolveCount();
             return _context.ExecuteScalarAsync<int>(sql, _parameters, commandTimeout);
         }
 
@@ -37,7 +37,7 @@ namespace Dapper
 
         public Task<int> DeleteAsync(int? commandTimeout = null)
         {
-            var sql = ResovleDelete();
+            var sql = ResolveDelete();
             return _context.ExecuteAsync(sql, _parameters, commandTimeout);
         }
 
@@ -49,7 +49,7 @@ namespace Dapper
 
         public Task<bool> ExistsAsync(int? commandTimeout = null)
         {
-            var sql = ResovleExists();
+            var sql = ResolveExists();
             return _context.ExecuteScalarAsync<bool>(sql, _parameters, commandTimeout);
         }
 
@@ -71,7 +71,7 @@ namespace Dapper
 
         public async Task<int> UpdateAsync(T entity)
         {
-            ResovleParameter(entity);
+            ResolveParameter(entity);
             var sql = ResolveUpdate();
             var row = await _context.ExecuteAsync(sql, _parameters);
             if (GetColumnMetaInfos().Exists(a => a.IsConcurrencyCheck) && row == 0)
@@ -83,8 +83,8 @@ namespace Dapper
 
         public Task<int> InsertAsync(T entity)
         {
-            ResovleParameter(entity);
-            var sql = ResovleInsert(false);
+            ResolveParameter(entity);
+            var sql = ResolveInsert(false);
             return _context.ExecuteAsync(sql, _parameters);
         }
 
@@ -94,21 +94,21 @@ namespace Dapper
             {
                 return 0;
             }
-            var sql = ResovleBatchInsert(entitys);
+            var sql = ResolveBatchInsert(entitys);
             return await _context.ExecuteAsync(sql, _parameters, commandTimeout);
         }
 
         public Task<int> InsertReturnIdAsync(T entity)
         {
-            ResovleParameter(entity);
-            var sql = ResovleInsert(true);
+            ResolveParameter(entity);
+            var sql = ResolveInsert(true);
             return _context.ExecuteScalarAsync<int>(sql, _parameters);
         }
       
         public async Task<TResult> SumAsync<TResult>(Expression<Func<T, TResult>> expression, int? commandTimeout = null)
         {
             _selectExpression = expression;
-            var sql = ResovleSum();
+            var sql = ResolveSum();
             return await _context.ExecuteScalarAsync<TResult>(sql, _parameters, commandTimeout);
         }
        
@@ -121,7 +121,7 @@ namespace Dapper
         public async Task<(IEnumerable<T>, int)> SelectManyAsync(int? commandTimeout = null)
         {
             var sql1 = ResolveSelect();
-            var sql2 = ResovleCount();
+            var sql2 = ResolveCount();
             using (var multi = _context.QueryMultiple($"{sql1};{sql2}", _parameters, commandTimeout))
             {
                 var list = await multi.GetListAsync<T>();
@@ -141,7 +141,7 @@ namespace Dapper
         {
             _selectExpression = expression;
             var sql1 = ResolveSelect();
-            var sql2 = ResovleCount();
+            var sql2 = ResolveCount();
             using (var multi = _context.QueryMultiple($"{sql1};{sql2}", _parameters, commandTimeout))
             {
                 var list = await multi.GetListAsync<TResult>();

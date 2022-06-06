@@ -9,24 +9,24 @@ using System.Reflection.Emit;
 namespace Dapper
 {
     /// <summary>
-    /// 实体转换映射器
+    /// Entity conversion mapper
     /// </summary>
     public interface IEntityMapperProvider
     {
         /// <summary>
-        /// 获取实体序列化转换器
+        /// Get the entity serializer converter
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="record"></param>
         /// <returns></returns>
         Func<IDataRecord, T> GetSerializer<T>(IDataRecord record);
         /// <summary>
-        /// 获取动态实体列化转换器
+        /// Get dynamic entity serialization converter
         /// </summary>
         /// <returns></returns>
         Func<IDataRecord, dynamic> GetSerializer();
         /// <summary>
-        /// 获取参数解码器
+        /// Get the parameter decoder
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -34,7 +34,7 @@ namespace Dapper
     }
 
     /// <summary>
-    /// 默认实体映射器
+    /// Default entity mapper
     /// </summary>
     public class EntityMapperProvider : IEntityMapperProvider
     {
@@ -92,7 +92,7 @@ namespace Dapper
             }
         }
         /// <summary>
-        /// 获取实体映射器
+        /// Get the entity mapper
         /// </summary>
         public Func<IDataRecord, T> GetSerializer<T>(IDataRecord record)
         {
@@ -103,13 +103,13 @@ namespace Dapper
             }
             var key = new SerializerKey(typeof(T), names.Length == 1 ? null : names);
             var handler = _serializers.GetOrAdd(key, k =>
-             {
-                 return CreateTypeSerializerHandler<T>(_memberMapper, record);
-             });
+            {
+                return CreateTypeSerializerHandler<T>(_memberMapper, record);
+            });
             return handler as Func<IDataRecord, T>;
         }
         /// <summary>
-        /// 获取动态映射器
+        /// Get the dynamic mapper
         /// </summary>
         public Func<IDataRecord, dynamic> GetSerializer()
         {
@@ -126,7 +126,7 @@ namespace Dapper
             };
         }
         /// <summary>
-        /// 获取实体解构器
+        /// Get the entity destructor
         /// </summary>
         public Func<object, Dictionary<string, object>> GetDeserializer(Type type)
         {
@@ -141,7 +141,7 @@ namespace Dapper
             return handler;
         }
         /// <summary>
-        /// 创建动态方法
+        /// Create dynamic method
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -176,7 +176,7 @@ namespace Dapper
             return dynamicMethod.CreateDelegate(typeof(Func<object, Dictionary<string, object>>)) as Func<object, Dictionary<string, object>>;
         }
         /// <summary>
-        /// 创建动态方法
+        /// Create dynamic method
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="mapper"></param>
@@ -286,7 +286,7 @@ namespace Dapper
     }
 
     /// <summary>
-    /// DataReader中的行信息
+    /// Row information in DataReader
     /// </summary>
     class DataReaderCellInfo
     {
@@ -304,7 +304,7 @@ namespace Dapper
     }
 
     /// <summary>
-    /// 返回数据记录到Csharp类型的策略
+    /// Returns the data record to the Csharp type strategy
     /// </summary>
     class MemberMapper
     {
@@ -437,7 +437,7 @@ namespace Dapper
         }
 
         /// <summary>
-        /// 数据库类型到Csharp类型转换器
+        /// Database type to Csharp type converter
         /// </summary>
         static class MemberMapperMethod
         {
@@ -445,8 +445,7 @@ namespace Dapper
             public static MethodInfo ToObjectMethod = typeof(MemberMapperMethod).GetMethod(nameof(MemberMapperMethod.ConvertToObject));
             public static MethodInfo ToByteMethod = typeof(MemberMapperMethod).GetMethod(nameof(MemberMapperMethod.ConvertToByte));
             public static MethodInfo ToIn16Method = typeof(MemberMapperMethod).GetMethod(nameof(MemberMapperMethod.ConvertToInt16));
-            public static MethodInfo ToIn32Method = typeof(MemberMapperMethod).GetMethod(nameof(MemberMapperMethod.ConvertToInt32));
-            public static MethodInfo ToIn64Method = typeof(MemberMapperMethod).GetMethod(nameof(MemberMapperMethod.ConvertToInt64));
+            public static MethodInfo ToIn32Method = typeof(MemberMapperMethod).GetMethod(nameof(MemberMapperMethod.ConvertToInt32)); public static MethodInfo ToIn64Method = typeof(MemberMapperMethod).GetMethod(nameof(MemberMapperMethod.ConvertToInt64));
             public static MethodInfo ToFloatMethod = typeof(MemberMapperMethod).GetMethod(nameof(MemberMapperMethod.ConvertToFloat));
             public static MethodInfo ToDoubleMethod = typeof(MemberMapperMethod).GetMethod(nameof(MemberMapperMethod.ConvertToDouble));
             public static MethodInfo ToDecimalMethod = typeof(MemberMapperMethod).GetMethod(nameof(MemberMapperMethod.ConvertToDecimal));

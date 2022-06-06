@@ -32,5 +32,4 @@ The framework only defines a label
 		select * from authors ${where};
 		select count(1) from authors ${where}
 	</select>
-
 </commands>

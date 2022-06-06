@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Dapper.XmlResovles
+namespace Dapper.XmlResolves
 {
     interface INode
     {

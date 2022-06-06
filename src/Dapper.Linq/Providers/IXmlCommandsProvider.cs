@@ -26,6 +26,13 @@ namespace Dapper
         /// </summary>
         /// <param name="filename">file name</param>
         void Load(string filename);
+
+        /// <summary>
+        /// Load a xml string
+        /// </summary>
+        /// <param name="xmlString">xml string</param>
+        void LoadXml(string xmlString);
+        
         /// <summary>
         /// Load all matching files from the specified path
         /// </summary>

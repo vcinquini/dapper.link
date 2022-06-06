@@ -43,8 +43,8 @@ namespace Dapper
 
         #endregion
 
-        #region resovles
-        private void ResovleParameter(T entity)
+        #region resolves
+        private void ResolveParameter(T entity)
         {
             var serializer = GlobalSettings.EntityMapperProvider.GetDeserializer(typeof(T));
             var values = serializer(entity);
@@ -61,7 +61,7 @@ namespace Dapper
             }
         }
 
-        private string ResovleCount()
+        private string ResolveCount()
         {
             var table = GetTableMetaInfo().TableName;
             var column = "COUNT(1)";
@@ -73,7 +73,7 @@ namespace Dapper
             }
             else if (_countExpression != null)
             {
-                column = new SelectExpressionResovle(_countExpression).Resovle();
+                column = new SelectExpressionResolve(_countExpression).Resolve();
             }
             var sql = $"SELECT {column} FROM {table}{where}{group}";
             if (group.Length > 0)
@@ -84,10 +84,10 @@ namespace Dapper
             return sql;
         }
 
-        private string ResovleSum()
+        private string ResolveSum()
         {
             var table = GetTableMetaInfo().TableName;
-            var column = $"SUM({ResovleColumns()})";
+            var column = $"SUM({ResolveColumns()})";
             var where = ResolveWhere();
             var sql = $"SELECT {column} FROM {table}{where}";
             return sql;
@@ -97,7 +97,7 @@ namespace Dapper
         {
             var table = GetTableMetaInfo().TableName;
             var columns = GetColumnMetaInfos();
-            var column = ResovleColumns();
+            var column = ResolveColumns();
             var where = $" WHERE {columns.Where(a => a.IsPrimaryKey == true).First().ColumnName}=@id";
             string sql;
             if (_context.DbContextType == DbContextType.SqlServer)
@@ -114,7 +114,7 @@ namespace Dapper
         private string ResolveSelect()
         {
             var table = GetTableMetaInfo().TableName;
-            var column = ResovleColumns();
+            var column = ResolveColumns();
             var where = ResolveWhere();
             var group = ResolveGroup();
             var having = ResolveHaving();
@@ -152,15 +152,15 @@ namespace Dapper
             return sql;
         }
 
-        private string ResovleInsert(bool identity)
+        private string ResolveInsert(bool identity)
         {
             var table = GetTableMetaInfo().TableName;
-            var filters = new GroupExpressionResovle(_filterExpression).Resovle().Split(',');
+            var filters = new GroupExpressionResolve(_filterExpression).Resolve().Split(',');
             var columns = GetColumnMetaInfos();
             var intcolumns = columns
                 .Where(a => !filters.Contains(a.ColumnName) && !a.IsNotMapped && !a.IsIdentity)
                 .Where(a => !a.IsComplexType)
-                .Where(a => !a.IsDefault || (_parameters.ContainsKey(a.CsharpName) && _parameters[a.CsharpName] != null));//如果是默认字段
+                .Where(a => !a.IsDefault || (_parameters.ContainsKey(a.CsharpName) && _parameters[a.CsharpName] != null)); // If the default field
             var columnNames = string.Join(",", intcolumns.Select(s => s.ColumnName));
             var parameterNames = string.Join(",", intcolumns.Select(s => $"@{s.CsharpName}"));
             var sql = $"INSERT INTO {table}({columnNames}) VALUES ({parameterNames})";
@@ -179,10 +179,10 @@ namespace Dapper
         {
             return GlobalSettings.DbMetaInfoProvider.GetColumns(typeof(T));
         }
-        private string ResovleBatchInsert(IEnumerable<T> entitys)
+        private string ResolveBatchInsert(IEnumerable<T> entitys)
         {
             var table = GetTableMetaInfo().TableName;
-            var filters = new GroupExpressionResovle(_filterExpression).Resovle().Split(',');
+            var filters = new GroupExpressionResolve(_filterExpression).Resolve().Split(',');
             var columns = GetColumnMetaInfos()
                 .Where(a => !a.IsComplexType).ToList();
             var intcolumns = columns
@@ -250,8 +250,8 @@ namespace Dapper
                 var where = ResolveWhere();
                 foreach (var item in _setExpressions)
                 {
-                    var column = new BooleanExpressionResovle(item.Column).Resovle();
-                    var expression = new BooleanExpressionResovle(item.Expression, _parameters).Resovle();
+                    var column = new BooleanExpressionResolve(item.Column).Resolve();
+                    var expression = new BooleanExpressionResolve(item.Expression, _parameters).Resolve();
                     builder.Append($"{column} = {expression},");
                 }
                 var sql = $"UPDATE {table} SET {builder.ToString().Trim(',')}{where}";
@@ -259,7 +259,7 @@ namespace Dapper
             }
             else
             {
-                var filters = new GroupExpressionResovle(_filterExpression).Resovle().Split(',');
+                var filters = new GroupExpressionResolve(_filterExpression).Resolve().Split(',');
                 var where = ResolveWhere();
                 var columns = GetColumnMetaInfos();
                 var updcolumns = columns
@@ -300,7 +300,7 @@ namespace Dapper
             }
         }
 
-        private string ResovleDelete()
+        private string ResolveDelete()
         {
             var table = GetTableMetaInfo().TableName;
             var where = ResolveWhere();
@@ -323,7 +323,7 @@ namespace Dapper
             return buffer.ToString();
         }
 
-        private string ResovleExists()
+        private string ResolveExists()
         {
             var table = GetTableMetaInfo().TableName;
             var where = ResolveWhere();
@@ -333,12 +333,12 @@ namespace Dapper
             return sql;
         }
 
-        private string ResovleColumns()
+        private string ResolveColumns()
         {
             if (_selectExpression == null)
             {
-                var filters = new GroupExpressionResovle(_filterExpression)
-                    .Resovle().Split(',');
+                var filters = new GroupExpressionResolve(_filterExpression)
+                    .Resolve().Split(',');
                 var columns = GetColumnMetaInfos()
                     .Where(a => !filters.Contains(a.ColumnName) && !a.IsNotMapped)
                     .Select(s => s.ColumnName != s.CsharpName ? $"{s.ColumnName} AS {s.CsharpName}" : s.CsharpName);
@@ -346,7 +346,7 @@ namespace Dapper
             }
             else
             {
-                return new SelectExpressionResovle(_selectExpression).Resovle();
+                return new SelectExpressionResolve(_selectExpression).Resolve();
             }
         }
 
@@ -355,7 +355,7 @@ namespace Dapper
             var builder = new StringBuilder();
             foreach (var expression in _whereExpressions)
             {
-                var result = new BooleanExpressionResovle(expression, _parameters).Resovle();
+                var result = new BooleanExpressionResolve(expression, _parameters).Resolve();
                 if (expression == _whereExpressions.First())
                 {
                     builder.Append($" WHERE {result}");
@@ -373,7 +373,7 @@ namespace Dapper
             var buffer = new StringBuilder();
             foreach (var item in _groupExpressions)
             {
-                var result = new GroupExpressionResovle(item).Resovle();
+                var result = new GroupExpressionResolve(item).Resolve();
                 buffer.Append($"{result},");
             }
             var sql = string.Empty;
@@ -390,7 +390,7 @@ namespace Dapper
             var buffer = new StringBuilder();
             foreach (var item in _havingExpressions)
             {
-                var result = new BooleanExpressionResovle(item, _parameters).Resovle();
+                var result = new BooleanExpressionResolve(item, _parameters).Resolve();
                 if (item == _havingExpressions.First())
                 {
                     buffer.Append($" HAVING {result}");
@@ -412,7 +412,7 @@ namespace Dapper
                 {
                     buffer.Append($" ORDER BY ");
                 }
-                var result = new OrderExpressionResovle(item.Expression, item.Asc).Resovle();
+                var result = new OrderExpressionResolve(item.Expression, item.Asc).Resolve();
                 buffer.Append(result);
                 buffer.Append(",");
             }

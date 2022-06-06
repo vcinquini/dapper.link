@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Dapper.XmlResovles
+namespace Dapper.XmlResolves
 {
     internal class TextNode : INode
     {

@@ -319,7 +319,7 @@ namespace Dapper
     }
 
     /// <summary>
-    /// sql执行日志
+    /// sql execution log
     /// </summary>
     /// <param name="message"></param>
     /// <param name="parameters"></param>

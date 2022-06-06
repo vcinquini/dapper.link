@@ -7,9 +7,9 @@ using System.Text;
 
 namespace Dapper.Expressions
 {
-    public abstract class ExpressionResovle : ExpressionVisitor
+    public abstract class ExpressionResolve : ExpressionVisitor
     {
-        protected ExpressionResovle(Expression expression)
+        protected ExpressionResolve(Expression expression)
         {
             _expression = expression;
         }
@@ -19,7 +19,7 @@ namespace Dapper.Expressions
         protected readonly StringBuilder _textBuilder = new StringBuilder();
 
         /// <summary>
-        /// 解析表达式参数
+        /// Parse the expression parameters
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
@@ -61,19 +61,19 @@ namespace Dapper.Expressions
         }
 
         /// <summary>
-        /// 获取字段名
+        /// Get the field name
         /// </summary>
         /// <param name="type"></param>
         /// <param name="csharpName"></param>
         /// <returns></returns>
-        protected string GetColumnName(Type type,string csharpName)
+        protected string GetColumnName(Type type, string csharpName)
         {
             var columns = GlobalSettings.DbMetaInfoProvider.GetColumns(type);
             return columns.Where(a => a.CsharpName == csharpName)
                 .FirstOrDefault().ColumnName;
         }
 
-        public virtual string Resovle()
+        public virtual string Resolve()
         {
             Visit(_expression);
             return _textBuilder.ToString();

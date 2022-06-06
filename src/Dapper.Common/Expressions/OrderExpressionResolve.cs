@@ -2,11 +2,11 @@
 
 namespace Dapper.Expressions
 {
-    public class OrderExpressionResovle : ExpressionResovle
+    public class OrderExpressionResolve : ExpressionResolve
     {
         private readonly string _asc = string.Empty;
 
-        public OrderExpressionResovle(Expression expression, bool asc)
+        public OrderExpressionResolve(Expression expression, bool asc)
             : base(expression)
         {
             if (!asc)
@@ -25,7 +25,7 @@ namespace Dapper.Expressions
 
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
-            var result = new FunctionExpressionResovle(node).Resovle();
+            var result = new FunctionExpressionResolve(node).Resolve();
             _textBuilder.Append($"{result}{_asc},");
             return node;
         }
@@ -37,9 +37,9 @@ namespace Dapper.Expressions
             return node;
         }
 
-        public override string Resovle()
+        public override string Resolve()
         {
-            return base.Resovle().Trim(',');
+            return base.Resolve().Trim(',');
         }
     }
 }

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net6.0</TargetFrameworks>
     <NoWarn>$(NoWarn);1591</NoWarn>
-    <Authors>chaeyeon</Authors>
+    <Authors></Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Description>A high performance Micro-ORM supporting SQL Server, MySQL, Sqlite, etc..</Description>
     <PackageProjectUrl>https://github.com/1448376744/Dapper.Linq</PackageProjectUrl>
@@ -12,7 +12,7 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright>chaeyeon</Copyright>
-    <Company>chaeyeon</Company>
+    <Company></Company>
     <PackageId>Dapper.Linq</PackageId>
     <Version>3.0.3</Version>
     <AssemblyVersion>3.0.3.0</AssemblyVersion>

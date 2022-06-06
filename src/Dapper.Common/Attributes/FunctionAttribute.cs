@@ -3,7 +3,7 @@
 namespace Dapper.Attributes
 {
     /// <summary>
-    /// 数据库函数标识
+    /// Database function identifier
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     public class FunctionAttribute : Attribute

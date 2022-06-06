@@ -5,7 +5,7 @@ using System.Text;
 namespace Dapper.Attributes
 {
     /// <summary>
-    /// 计算列，如果字段一个是计算列则新增和修改的时候不会处理
+    /// Calculated column, if one of the fields is a calculated column, it will not be processed when adding and modifying
     /// </summary>
     public class ComplexTypeAttribute : Attribute
     {

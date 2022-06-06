@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Dapper.Expressions;
 
-namespace Dapper.XmlResovles
+namespace Dapper.XmlResolves
 {
     internal class CommandNode : INode
     {

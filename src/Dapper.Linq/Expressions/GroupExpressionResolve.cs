@@ -2,9 +2,9 @@
 
 namespace Dapper.Expressions
 {
-    public class GroupExpressionResovle : ExpressionResovle
+    public class GroupExpressionResolve : ExpressionResolve
     {
-        public GroupExpressionResovle(Expression expression)
+        public GroupExpressionResolve(Expression expression)
             : base(expression)
         {
         }
@@ -27,14 +27,14 @@ namespace Dapper.Expressions
 
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
-            var result = new FunctionExpressionResovle(node).Resovle();
+            var result = new FunctionExpressionResolve(node).Resolve();
             _textBuilder.Append($"{result},");
             return node;
         }
 
-        public override string Resovle()
+        public override string Resolve()
         {
-            return base.Resovle().Trim(',');
+            return base.Resolve().Trim(',');
         }
     }
 }

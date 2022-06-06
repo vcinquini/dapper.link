@@ -7,79 +7,79 @@ using System.Threading.Tasks;
 namespace Dapper
 {
     /// <summary>
-    /// xml命令映射器
+    /// xml command mapper
     /// </summary>
     public interface IXmlQuery
     {
         /// <summary>
-        ///执行多结果集查询，返回IMultiResult
+        ///Execute a multi-result set query and return IMultiResult
         /// </summary>
-        /// <param name="commandTimeout">超时时间</param>
-        /// <param name="commandType">命令类型</param>
+        /// <param name="commandTimeout">Timeout</param>
+        /// <param name="commandType">Command Type</param>
         /// <returns></returns>
         IDbMultipleResult MultipleQuery(int? commandTimeout = null, CommandType? commandType = null);
         /// <summary>
-        /// 执行单结果集查询，并返回dynamic类型的结果集
+        /// Execute a single result set query and return a result set of dynamic type
         /// </summary>
-        /// <param name="commandTimeout">超时时间</param>
-        /// <param name="commandType">命令类型</param>
+        /// <param name="commandTimeout">Timeout</param>
+        /// <param name="commandType">Command Type</param>
         /// <returns></returns>
         IEnumerable<dynamic> Query(int? commandTimeout = null, CommandType? commandType = null);
         /// <summary>
-        /// 异步执行单结果集查询，并返回dynamic类型的结果集
+        /// Asynchronously executes a single result set query and returns a dynamic type result set
         /// </summary>
-        /// <param name="commandTimeout">超时时间</param>
-        /// <param name="commandType">命令类型</param>
+        /// <param name="commandTimeout">Timeout</param>
+        /// <param name="commandType">Command Type</param>
         /// <returns></returns>
         Task<IEnumerable<dynamic>> QueryAsync(int? commandTimeout = null, CommandType? commandType = null);
         /// <summary>
-        /// 执行单结果集查询，并返回T类型的结果集
+        /// Execute a single result set query and return a result set of type T
         /// </summary>
-        /// <typeparam name="T">返回类型</typeparam>
-        /// <param name="commandTimeout">超时时间</param>
-        /// <param name="commandType">命令类型</param>
+        /// <typeparam name="T">return type</typeparam>
+        /// <param name="commandTimeout">Timeout</param>
+        /// <param name="commandType">Command Type</param>
         /// <returns></returns>
         IEnumerable<T> Query<T>(int? commandTimeout = null, CommandType? commandType = null);
         /// <summary>
-        /// 异步执行单结果集查询，并返回T类型的结果集
+        /// Asynchronously executes a single result set query and returns a result set of type T
         /// </summary>
-        /// <typeparam name="T">返回类型</typeparam>
-        /// <param name="commandTimeout">超时时间</param>
-        /// <param name="commandType">命令类型</param>
+        /// <typeparam name="T">return type</typeparam>
+        /// <param name="commandTimeout">Timeout</param>
+        /// <param name="commandType">Command Type</param>
         /// <returns></returns>
         Task<IEnumerable<T>> QueryAsync<T>(int? commandTimeout = null, CommandType? commandType = null);
         /// <summary>
-        /// 执行无结果集查询，并返回受影响的行数
+        /// Executes a query without a result set and returns the number of rows affected
         /// </summary>
-        /// <param name="commandTimeout">超时时间</param>
-        /// <param name="commandType">命令类型</param>
+        /// <param name="commandTimeout">Timeout</param>
+        /// <param name="commandType">Command Type</param>
         /// <returns></returns>
         int Execute(int? commandTimeout = null, CommandType? commandType = null);
         /// <summary>
-        /// 异步执行无结果集查询，并返回受影响的行数
+        /// Executes a query without a result set asynchronously and returns the number of rows affected
         /// </summary>
-        /// <param name="commandTimeout">超时时间</param>
-        /// <param name="commandType">命令类型</param>
+        /// <param name="commandTimeout">Timeout</param>
+        /// <param name="commandType">Command Type</param>
         /// <returns></returns>
         Task<int> ExecuteAsync(int? commandTimeout = null, CommandType? commandType = null);
         /// <summary>
-        /// 执行无结果集查询，并返回指定类型的数据
+        /// Execute a query without a result set and return data of the specified type
         /// </summary>
-        /// <typeparam name="T">返回类型</typeparam>
-        /// <param name="commandTimeout">超时时间</param>
-        /// <param name="commandType">命令类型</param>
+        /// <typeparam name="T">return type</typeparam>
+        /// <param name="commandTimeout">Timeout</param>
+        /// <param name="commandType">Command Type</param>
         /// <returns></returns>
         T ExecuteScalar<T>(int? commandTimeout = null, CommandType? commandType = null);
         /// <summary>
-        /// 异步执行无结果集查询，并返回指定类型的数据
+        /// Executes a query without a result set asynchronously and returns the specified type of data
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="commandTimeout">超时时间</param>
-        /// <param name="commandType">命令类型</param>
+        /// <param name="commandTimeout">Timeout</param>
+        /// <param name="commandType">Command Type</param>
         /// <returns></returns>
         Task<T> ExecuteScalarAsync<T>(int? commandTimeout = null, CommandType? commandType = null);
         /// <summary>
-        /// 添加数据库参数
+        /// Add database parameters
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>
@@ -87,7 +87,7 @@ namespace Dapper
     }
 
     /// <summary>
-    /// 实现xml命令映射器
+    /// Implement the xml command mapper
     /// </summary>
     internal class XmlQuery : IXmlQuery
     {
@@ -97,7 +97,7 @@ namespace Dapper
 
         private readonly IDbContext _mapper = null;
 
-        public XmlQuery(IDbContext mapper, string sql, Dictionary<string,object> parameters=null)
+        public XmlQuery(IDbContext mapper, string sql, Dictionary<string, object> parameters = null)
         {
             _mapper = mapper;
             _sql = sql;
@@ -106,7 +106,7 @@ namespace Dapper
 
         public IDbMultipleResult MultipleQuery(int? commandTimeout = null, CommandType? commandType = null)
         {
-            return _mapper.QueryMultiple(_sql, _parameters, commandTimeout,commandType);
+            return _mapper.QueryMultiple(_sql, _parameters, commandTimeout, commandType);
         }
 
         public int Execute(int? commandTimeout = null, CommandType? commandType = null)
@@ -149,7 +149,7 @@ namespace Dapper
             return _mapper.ExecuteScalarAsync<T>(_sql, _parameters, commandTimeout, commandType);
         }
 
-        public void AddDbParameter(string name,object value)
+        public void AddDbParameter(string name, object value)
         {
             if (_parameters == null)
             {
@@ -161,7 +161,7 @@ namespace Dapper
             }
             else
             {
-                _parameters.Add(name,value);
+                _parameters.Add(name, value);
             }
         }
     }
