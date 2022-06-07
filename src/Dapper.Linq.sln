@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dapper.Common", "Dapper.Com
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dapper.Linq.NUnitTest", "Dapper.Linq.NUnitTest\Dapper.Linq.NUnitTest.csproj", "{68602072-9777-44F6-A187-F91DAECA4237}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.Linq.Test", "Dapper.Linq.Test\Dapper.Linq.Test.csproj", "{6B3BCC15-FCC2-4DEA-BFE8-4599D5C8C28B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dapper.Linq.Test", "Dapper.Linq.Test\Dapper.Linq.Test.csproj", "{6B3BCC15-FCC2-4DEA-BFE8-4599D5C8C28B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionAppTestDapper", "FunctionAppTestDapper\FunctionAppTestDapper.csproj", "{328DDC7F-0590-4405-A0B6-58EE7848053B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{6B3BCC15-FCC2-4DEA-BFE8-4599D5C8C28B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B3BCC15-FCC2-4DEA-BFE8-4599D5C8C28B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B3BCC15-FCC2-4DEA-BFE8-4599D5C8C28B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{328DDC7F-0590-4405-A0B6-58EE7848053B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{328DDC7F-0590-4405-A0B6-58EE7848053B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{328DDC7F-0590-4405-A0B6-58EE7848053B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{328DDC7F-0590-4405-A0B6-58EE7848053B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

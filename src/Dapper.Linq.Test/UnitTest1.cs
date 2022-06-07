@@ -35,7 +35,7 @@ namespace Dapper.Linq.Test
             db.Open();
 
             var list = db.From<Authors>()
-                .Where(a => a.AuthorId > 1)
+                .Where(a => a.AuthorId > 1 && !a.LastName.Contains("Cinquini"))
                 .Select();
 
             Assert.NotNull(list);
@@ -93,6 +93,26 @@ namespace Dapper.Linq.Test
         }
 
         [Fact]
+        public void Test4a()
+        {
+            int id = 2;
+
+            var db = new DbContext(new DbContextBuilder
+            {
+                Connection = new SqlConnection("server=valmirsqlserver.database.windows.net;user id=vcinquini;password=V@lmir01;database=ValmirFunctionDB;"),
+                DbContextType = DbContextType.SqlServer
+            });
+
+            db.Open();
+
+            var list = db.Query<Authors>($"SELECT * FROM authors where author_id = {id}", commandType: CommandType.Text);
+
+            Assert.NotNull(list);
+            Assert.NotEmpty(list);
+
+        }
+
+        [Fact]
         public void Test5()
         {
             var db = new DbContext(new DbContextBuilder
@@ -105,11 +125,11 @@ namespace Dapper.Linq.Test
 
                 db.Open();
 
-                db.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
+                db.BeginTransaction(IsolationLevel.ReadCommitted);
 
                 db.From<Authors>().Insert(new Authors()
                 {
-                    AuthorId = 8,
+                    AuthorId = 11,
                     FirstName = "Luiza",
                     LastName = "Pedro",
                     Phone = "+5511993218537"
@@ -118,7 +138,7 @@ namespace Dapper.Linq.Test
                 //throw new Exception("rollback");
                 db.From<Authors>().Insert(new Authors()
                 {
-                    AuthorId = 8,
+                    AuthorId = 11,
                     FirstName = "Dirce",
                     LastName = "Pedro",
                     Phone = "+5511993218537"
@@ -174,6 +194,48 @@ namespace Dapper.Linq.Test
 
         }
 
+        [Fact]
+        public void Test6a()
+        {
+            var db = new DbContext(new DbContextBuilder
+            {
+                Connection = new SqlConnection("server=valmirsqlserver.database.windows.net;user id=vcinquini;password=V@lmir01;database=ValmirFunctionDB;"),
+                DbContextType = DbContextType.SqlServer
+            });
+
+            db.Open();
+
+            db.BeginTransaction(IsolationLevel.ReadCommitted);
+
+            db.From<Authors>().Delete(x => x.AuthorId == 9 || x.AuthorId == 10);
+
+            db.From<Authors>().Insert(new Authors()
+            {
+                AuthorId = 90,
+                FirstName = "Luiza",
+                LastName = "Pedro",
+                Phone = "+5511993218537"
+            });
+
+            db.From<Authors>().Insert(new Authors()
+            {
+                AuthorId = 100,
+                FirstName = "Dirce",
+                LastName = "Pedro",
+                Phone = "+5511993218537"
+            });
+
+            db.CommitTransaction();
+
+            var au9 = db.From<Authors>().Get(90);
+            var au10 = db.From<Authors>().Get(100);
+
+            Assert.True(au9.AuthorId == 90);
+            Assert.True(au10.AuthorId == 100);
+
+            db?.Close();
+
+        }
         [Fact]
         public void Test11()
         {
