@@ -17,6 +17,7 @@ namespace Dapper
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060: Remove unused parameters", Justification = "<Suspended>")]
         public static bool In<T>(T column, IEnumerable<T> values) => default;
+
         /// <summary>
         /// in (low performance)
         /// </summary>

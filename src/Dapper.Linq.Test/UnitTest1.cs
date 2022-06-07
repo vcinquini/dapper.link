@@ -7,7 +7,7 @@ namespace Dapper.Linq.Test
     public class UnitTest1
     {
         [Fact]
-        public void Test1()
+        public void Test_Get()
         {
             var db = new DbContext(new DbContextBuilder
             {
@@ -24,7 +24,7 @@ namespace Dapper.Linq.Test
         }
 
         [Fact]
-        public void Test2()
+        public void Test_Query_Linq()
         {
             var db = new DbContext(new DbContextBuilder
             {
@@ -34,16 +34,18 @@ namespace Dapper.Linq.Test
 
             db.Open();
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             var list = db.From<Authors>()
                 .Where(a => a.AuthorId > 1 && !a.LastName.Contains("Cinquini"))
                 .Select();
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             Assert.NotNull(list);
             Assert.NotEmpty(list);
         }
 
         [Fact]
-        public void Test3()
+        public void Test_Multiple_Xml_File()
         {
             var db = new DbContext(new DbContextBuilder
             {
@@ -73,7 +75,7 @@ namespace Dapper.Linq.Test
         }
 
         [Fact]
-        public void Test4()
+        public void Test_Procedure()
         {
             var db = new DbContext(new DbContextBuilder
             {
@@ -93,7 +95,7 @@ namespace Dapper.Linq.Test
         }
 
         [Fact]
-        public void Test4a()
+        public void Test_Query_String()
         {
             int id = 2;
 
@@ -113,7 +115,7 @@ namespace Dapper.Linq.Test
         }
 
         [Fact]
-        public void Test5()
+        public void Test_Insert_Rollback()
         {
             var db = new DbContext(new DbContextBuilder
             {
@@ -152,7 +154,7 @@ namespace Dapper.Linq.Test
         }
 
         [Fact]
-        public void Test6()
+        public void Test_Insert_Commit()
         {
             var db = new DbContext(new DbContextBuilder
             {
@@ -195,7 +197,7 @@ namespace Dapper.Linq.Test
         }
 
         [Fact]
-        public void Test6a()
+        public void Test_Insert_Commit_2()
         {
             var db = new DbContext(new DbContextBuilder
             {
@@ -237,7 +239,7 @@ namespace Dapper.Linq.Test
 
         }
         [Fact]
-        public void Test11()
+        public void Test_Multiple_Xml_Text()
         {
             var db = new DbContext(new DbContextBuilder
             {
@@ -288,5 +290,83 @@ namespace Dapper.Linq.Test
 #pragma warning restore CS0168 // Variable is declared but never used
         }
 
+        [Fact]
+        public void Test_Update()
+        {
+            var db = new DbContext(new DbContextBuilder
+            {
+                Connection = new SqlConnection("server=valmirsqlserver.database.windows.net;user id=vcinquini;password=V@lmir01;database=ValmirFunctionDB;"),
+                DbContextType = DbContextType.SqlServer
+            });
+
+            db.Open();
+
+            ////////////////////////////
+            var age = "20";
+
+            var row1 = db.From<Authors>()
+                .Set(a => a.FirstName, "Valmir_")
+                .Set(a => a.Phone, "")
+                .Set(a => a.LastName, a => a.LastName + age)
+                .Where(a => a.AuthorId == 100)
+                .Update();
+
+            var row2 = db.From<Authors>()
+                .Set(a => a.FirstName, "Valmir ")
+                .Set(a => a.Phone, "")
+                .Set(a => a.LastName, a => a.LastName + age)
+                .Where(a => Operator.In(a.AuthorId, 100, 102))
+                .Update();
+
+
+            //entity update by primary key
+            var row3 = db.From<Authors>()
+                .Filter(a => a.AuthorId)
+                .Update(new Authors()
+                {
+                    AuthorId = 2,
+                    FirstName = "Isadora",
+                    LastName = "M. R. Cinquini",
+                    Phone = "+5511999701810"
+                });
+            ////////////////////////////
+
+        }
+
+        [Fact]
+        public void Test_Page()
+        {
+            var db = new DbContext(new DbContextBuilder
+            {
+                Connection = new SqlConnection("server=valmirsqlserver.database.windows.net;user id=vcinquini;password=V@lmir01;database=ValmirFunctionDB;"),
+                DbContextType = DbContextType.SqlServer
+            });
+
+            db.Open();
+
+            var total = db.From<Authors>()
+                .Page(1, 10)
+                .Select();
+
+            Assert.Equal(10, total.Last<Authors>().AuthorId);
+            Assert.Equal(10, total.Count());
+
+            total = db.From<Authors>()
+                .Page(10, 2)
+                .Select();
+
+            Assert.Equal(102, total.Last<Authors>().AuthorId);
+            Assert.Equal(4, total.Count());
+
+        }
     }
 }
+
+/*
+
+    //lock
+    var student = db.From<Authors>()
+        .Where(a => a.AuthorId == 10)
+        .Single();
+
+*/

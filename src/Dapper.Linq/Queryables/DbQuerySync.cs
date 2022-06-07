@@ -172,11 +172,11 @@ namespace Dapper
             return this;
         }
 
-        public IDbQuery<T> Page(int index, int count, bool condition = true)
+        public IDbQuery<T> Page(int offset, int rows, bool condition = true)
         {
             if (condition)
             {
-                Skip((index - 1) * count, count);
+                Skip(offset, rows);
             }
             return this;
         }
@@ -242,12 +242,12 @@ namespace Dapper
             return Select(expression, commandTimeout).FirstOrDefault();
         }
 
-        public IDbQuery<T> Skip(int index, int count, bool condition = true)
+        public IDbQuery<T> Skip(int offset, int rows, bool condition = true)
         {
             if (condition)
             {
-                _page.Index = index;
-                _page.Count = count;
+                _page.Offset = offset;
+                _page.Rows = rows;
             }
             return this;
         }

@@ -127,17 +127,17 @@ namespace Dapper
                 {
                     _lockname = $" WITH({_lockname})";
                 }
-                if (_page.Index == 0)
+                if (_page.Offset == 0)
                 {
-                    sql = $"SELECT TOP {_page.Count} {column} FROM {table}{_lockname}{where}{group}{having}{order}";
+                    sql = $"SELECT TOP {_page.Rows} {column} FROM {table}{_lockname}{where}{group}{having}{order}";
                 }
-                else if (_page.Index > 0)
+                else if (_page.Offset > 0)
                 {
                     if (order == string.Empty)
                     {
                         order = " ORDER BY (SELECT 1)";
                     }
-                    var limit = $" OFFSET {_page.Index} ROWS FETCH NEXT {_page.Count} ROWS ONLY";
+                    var limit = $" OFFSET {_page.Offset} ROWS FETCH NEXT {_page.Rows} ROWS ONLY";
                     sql = $"SELECT {column} FROM {_lockname}{table}{where}{group}{having}{order}{limit}";
                 }
                 else
@@ -147,7 +147,7 @@ namespace Dapper
             }
             else
             {
-                var limit = _page.Index > 0 || _page.Count > 0 ? $" LIMIT {_page.Index},{_page.Count}" : string.Empty;
+                var limit = _page.Offset > 0 || _page.Rows > 0 ? $" LIMIT {_page.Offset},{_page.Rows}" : string.Empty;
                 sql = $"SELECT {column} FROM {table}{where}{group}{having}{order}{limit}{_lockname}";
             }
             return sql;
@@ -204,7 +204,7 @@ namespace Dapper
                 {
                     var item = list[i];
                     var values = serializer(item);
-                    buffer.Append("(");
+                    buffer.Append('(');
 
                     for (var j = 0; j < intcolumns.Count; j++)
                     {
@@ -234,13 +234,13 @@ namespace Dapper
                         }
                         if (j + 1 < intcolumns.Count)
                         {
-                            buffer.Append(",");
+                            buffer.Append(',');
                         }
                     }
-                    buffer.Append(")");
+                    buffer.Append(')');
                     if (i + 1 < list.Count)
                     {
-                        buffer.Append(",");
+                        buffer.Append(',');
                     }
                 }
                 return buffer.Remove(buffer.Length - 1, 0).ToString();
@@ -428,8 +428,8 @@ namespace Dapper
 
         class PageData
         {
-            public int Index { get; set; } = -1;
-            public int Count { get; set; }
+            public int Offset { get; set; } = -1;
+            public int Rows { get; set; }
         }
 
         class OrderExpression

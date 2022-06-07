@@ -219,12 +219,14 @@ namespace Dapper
         /// <param name="commandTimeout">Timeout</param>
         /// <returns></returns>
         Task<(IEnumerable<TResult>, int)> SelectManyAsync<TResult>(Expression<Func<T, TResult>> expression, int? commandTimeout = null);
+        
         /// <summary>
         /// select query
         /// </summary>
         /// <param name="commandTimeout">Timeout</param>
         /// <returns></returns>
         T Single(int? commandTimeout = null);
+
         /// <summary>
         /// Asynchronous select query
         /// </summary>
